@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: local_postgres
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-mint_db_local}
+    volumes:
+      - local_postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - local_postgres_net
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: local_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-default@email.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-1234QWERasdf}
+    volumes:
+       - local_pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - local_postgres_net
+    restart: unless-stopped
+
+networks:
+  local_postgres_net:
+    driver: bridge
+
+volumes:
+    local_postgres:
+    local_pgadmin:
