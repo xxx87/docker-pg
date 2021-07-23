@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-default@email.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-12345678}
+    volumes:
+      - local_pgadmin:/root/.pgadmin
+      # - ../../pg_servers.json:/pgadmin4/servers.json
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+    network_mode: host
+volumes:
+  local_pgadmin:
