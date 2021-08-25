@@ -30,6 +30,15 @@ services:
       - local_postgres_net
     restart: unless-stopped
 
+  gotenberg:
+    container_name: local_gotenberg
+    image: xxx87/gotenberg:6
+    ports:
+      - "3005:3005"
+    networks:
+      - local_postgres_net
+    restart: unless-stopped
+
 networks:
   local_postgres_net:
     driver: bridge
