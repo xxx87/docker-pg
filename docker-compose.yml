@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-mint_db_local}
     volumes:
-      - local_postgres:/data/postgres
+      - local_postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -23,18 +23,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-default@email.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-1234QWERasdf}
     volumes:
-       - local_pgadmin:/root/.pgadmin
+       - local_pgadmin:/var/lib/pgadmin
     ports:
       - "${PGADMIN_PORT:-5050}:80"
-    networks:
-      - local_postgres_net
-    restart: unless-stopped
-
-  gotenberg:
-    container_name: local_gotenberg
-    image: xxx87/gotenberg:6
-    ports:
-      - "3005:3005"
     networks:
       - local_postgres_net
     restart: unless-stopped
