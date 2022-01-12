@@ -14,7 +14,7 @@ services:
       - 5432:5432
     networks:
       - local_postgres_net
-    restart: unless-stopped
+    restart: always
 
   pgadmin:
     container_name: local_pgadmin
@@ -28,7 +28,7 @@ services:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
       - local_postgres_net
-    restart: unless-stopped
+    restart: always
 
 networks:
   local_postgres_net:
