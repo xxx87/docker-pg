@@ -1,39 +1,33 @@
-version: '3.5'
+version: "3.5"
 
 services:
   postgres:
-    container_name: local_postgres
-    image: postgres:16.4-alpine
+    image: postgres:latest
+    container_name: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-default_db_local}
-    volumes:
-      - local_postgres:/var/lib/postgresql/data
     ports:
-      - 5432:5432
-    networks:
-      - local_postgres_net
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     restart: always
 
-  pgadmin:
-    container_name: local_pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-default@email.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-1234QWERasdf}
-    volumes:
-       - local_pgadmin:/var/lib/pgadmin
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
-    networks:
-      - local_postgres_net
-    restart: always
-
-networks:
-  local_postgres_net:
-    driver: bridge
+  # pgadmin:
+  #   container_name: local_pgadmin
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-default@email.com}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-1234QWERasdf}
+  #   volumes:
+  #      - local_pgadmin:/var/lib/pgadmin
+  #   ports:
+  #     - "${PGADMIN_PORT:-5050}:80"
+  #   networks:
+  #     - local_postgres_net
+  #   restart: always
 
 volumes:
-    local_postgres:
-    local_pgadmin:
+  postgres-data:
+  # local_pgadmin:
